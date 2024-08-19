@@ -1,3 +1,8 @@
+2024-08-19 Harald Oehlmann <oehhar@users.sourceforge.net>
+	* color.tcl: add support for named colors.
+	Thanks to Steve from https://sourceforge.net/projects/scidvspc/
+	for the contribution. Ticket [4f9a4205f0]
+
 2023-05-22 Harald Oehlmann <oehhar@users.sourceforge.net>
 	TCL9.0/Tk8.7 compatibility issues found by Paul Obermeier.
 	https://wiki.tcl-lang.org/page/Porting+extensions+to+Tcl+9
