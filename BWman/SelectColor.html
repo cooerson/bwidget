@@ -125,7 +125,7 @@ Title of the Dialog toplevel.
 
 </DD>
 </DL>
-<DL><DT><A NAME="-type"><B>-type (read-only)</B></A></DT>
+<DL><DT><A NAME="-type"><B>-type (only on widget creation)</B></A></DT>
 <DD>
 
 Specifies the type of the SelectColor widget. Must be <B>dialog</B> or
@@ -135,7 +135,8 @@ return an empty string if cancel button is pressed or if dialog is destroyed,
 and the selected color if ok button is pressed. In all cases, dialog is
 destroyed.  <BR>If <B>type</B> option is <I>popup</I>,
 SelectColor::<B>create</B> creates a small, popup dialog with a small set of
-predefined colors and a button to activate a full color dialog.
+predefined colors and a button to activate a full color dialog.<BR>
+The widget commands <B>dialog</B> and <B>menu</B> below are synonymes for those operation modes.
 
 </DD>
 </DL>
