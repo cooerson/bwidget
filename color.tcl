@@ -908,6 +908,7 @@ proc SelectColor::_ValidateColorEntry {percentV percentP} {
 # ------------------------------------------------------------------------------
 
 proc SelectColor::_SetWithoutTrace {value} {
+    variable _hsv
     trace remove variable ::SelectColor::_unsavedSelection write ::SelectColor::_SetEntryValue
     _set_rgb $value
     set _hsv [eval rgbToHsv [winfo rgb . $value]]
