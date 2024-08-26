@@ -1,10 +1,12 @@
-2024-08-19 Harald Oehlmann <oehhar@users.sourceforge.net>
+2023-05-22 Harald Oehlmann <oehhar@users.sourceforge.net>
 	* color.tcl: Bugfix in color chooser.
 	Displayed color box got gray (instead yellow) after the
 	following action: manually enter #ff0, click on far right
 	pannel for intensity.
+	In addition, add limited support for manual entry of named
+	colors.
 	Thanks to Steve from https://sourceforge.net/projects/scidvspc/
-	for the bug report. Ticket [4f9a4205f0]
+	for bug report and contribution. Ticket [4f9a4205f0]
 
 2023-05-22 Harald Oehlmann <oehhar@users.sourceforge.net>
 	TCL9.0/Tk8.7 compatibility issues found by Paul Obermeier.

@@ -871,31 +871,46 @@ proc SelectColor::_ValidateColorEntry {percentV percentP} {
     variable _unsavedSelection
 
     set result [regexp -- {^#[0-9a-fA-F]*$} $percentP]
-    set lenny  [string length $percentP]
-
     if {$result} {
-        if {[string equal $percentV "forced"]} {
-            # Validation only.  Don't want a loop.
-        } elseif {[string equal $percentV "key"]} {
-            # Copy to GUI if a valid color.
-            if {($lenny - 1) % 3 || $lenny == 1} {
-                # Not a valid color, which needs 3n+1 characters, n > 0
-            } else {
-                after idle [list SelectColor::_SetWithoutTrace $percentP]
-            }
-        } elseif {[string equal $percentV "focusout"]} {
-            # If the color is valid it will already have been copied to the GUI
-            # and to _userCommand by the "key" validation above.
-            #
-            # The code below only needs to reset the value in the entry widget.
-            # Remove an invalid value, convert a valid one to 24-bit.
-            # Ignore $percentP, just fire the trace on _unsavedSelection.
-            set color $_unsavedSelection
-            after idle [list set ::SelectColor::_unsavedSelection $color]
+        # Check for a valid rgb color, which needs 3n+1 characters, n > 0
+        set lenny  [string length $percentP]
+        set entryincomplete [expr {($lenny - 1) % 3 || $lenny == 1}]
+    } else {
+        # Check for named colors
+        set result [regexp -- {^[a-zA-Z0-9 ]*$} $percentP]
+        # We do not accept the key stroke
+        if {!$result} {
+            return 0
+        }
+        # Check for complete named color
+        set entryincomplete [catch {winfo rgb . $percentP} rgblist]
+        if {!$entryincomplete} {
+            set red [expr {[lindex $rgblist 0]/0x100}]
+            set green [expr {[lindex $rgblist 1]/0x100}]
+            set blue [expr {[lindex $rgblist 2]/0x100}]
+            set percentP [format "#%02X%02X%02X" $red $green $blue]
         }
     }
 
-    return $result
+    if {[string equal $percentV "forced"]} {
+        # Validation only.  Don't want a loop.
+    } elseif {[string equal $percentV "key"]} {
+        # Copy to GUI if a valid color.
+        if {!$entryincomplete} {
+            after idle [list SelectColor::_SetWithoutTrace $percentP]
+        }
+    } elseif {[string equal $percentV "focusout"]} {
+        # If the color is valid it will already have been copied to the GUI
+        # and to _userCommand by the "key" validation above.
+        #
+        # The code below only needs to reset the value in the entry widget.
+        # Remove an invalid value, convert a valid one to 24-bit.
+        # Ignore $percentP, just fire the trace on _unsavedSelection.
+        set color $_unsavedSelection
+        after idle [list set ::SelectColor::_unsavedSelection $color]
+    }
+
+    return 1
 }
 
 
