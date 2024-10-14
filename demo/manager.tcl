@@ -106,15 +106,15 @@ proc DemoManager::_show_progress { } {
     variable _status
 
     if { $_progress } {
-        set Demo::status   "Compute in progress..."
-        set Demo::prgindic 0
-        $Demo::mainframe showstatusbar progression
+        set ::Demo::status   "Compute in progress..."
+        set ::Demo::prgindic 0
+        $::Demo::mainframe showstatusbar progression
         if { $_afterid == "" } {
             set _afterid [after 30 DemoManager::_update_progress]
         }
     } else {
-        set Demo::status ""
-        $Demo::mainframe showstatusbar status
+        set ::Demo::status ""
+        $::Demo::mainframe showstatusbar status
         set _afterid ""
     }
 }
@@ -125,13 +125,13 @@ proc DemoManager::_update_progress { } {
     variable _afterid
 
     if { $_progress } {
-        if { $Demo::prgindic < 100 } {
-            incr Demo::prgindic 5
+        if { $::Demo::prgindic < 100 } {
+            incr ::Demo::prgindic 5
             set _afterid [after 30 DemoManager::_update_progress]
         } else {
             set _progress 0
-            $Demo::mainframe showstatusbar status
-            set Demo::status "Done"
+            $::Demo::mainframe showstatusbar status
+            set ::Demo::status "Done"
             set _afterid ""
             after 500 {set Demo::status ""}
         }

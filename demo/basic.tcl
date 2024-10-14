@@ -184,14 +184,15 @@ proc DemoBasic::_barmcmd { value but arr1 arr2 } {
 proc DemoBasic::_butcmd { reason } {
     variable count
     variable id
+    variable var
 
     catch {after cancel $id}
     if { $reason == "arm" } {
         incr count
-        set DemoBasic::var(butcmd) "$reason command called ($count)"
+        set var(butcmd) "$reason command called ($count)"
     } else {
         set count 0
-        set DemoBasic::var(butcmd) "$reason command called"
+        set var(butcmd) "$reason command called"
     }
     set id [after 500 {set DemoBasic::var(butcmd) ""}]
 }

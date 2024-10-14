@@ -179,7 +179,7 @@ proc Entry::create { path args } {
 proc Entry::configure { path args } {
     # Cheat by setting the -text value to the current contents of the entry
     # This might be better hidden behind a function in ::Widget.
-    set Widget::Entry::${path}:opt(-text) [$path:cmd get]
+    set ::Widget::Entry::${path}:opt(-text) [$path:cmd get]
 
     set res [Widget::configure $path $args]
 

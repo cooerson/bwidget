@@ -180,7 +180,7 @@ proc DemoDlg::_show_msgdlg { } {
 
 
 proc DemoDlg::_show_fontdlg { } {
-    set font [SelectFont .fontdlg -parent . -font $Demo::font]
+    set font [SelectFont .fontdlg -parent . -font $::Demo::font]
     if { $font != "" } {
         Demo::update_font $font
     }
@@ -188,8 +188,8 @@ proc DemoDlg::_show_fontdlg { } {
 
 
 proc DemoDlg::_show_progdlg { } {
-    set DemoDlg::progmsg "Compute in progress..."
-    set DemoDlg::progval 0
+    set ::DemoDlg::progmsg "Compute in progress..."
+    set ::DemoDlg::progval 0
 
     ProgressDlg .progress -parent . -title "Wait..." \
         -type         infinite \
@@ -204,7 +204,7 @@ proc DemoDlg::_show_progdlg { } {
 
 proc DemoDlg::_update_progdlg { } {
     if { [winfo exists .progress] } {
-        set DemoDlg::progval 2
+        set ::DemoDlg::progval 2
         after 20 DemoDlg::_update_progdlg
     }
 }

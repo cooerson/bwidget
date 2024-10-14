@@ -129,7 +129,7 @@ proc Button::create { path args } {
 # ----------------------------------------------------------------------------
 proc Button::configure { path args } {
     set oldunder [$path:cmd cget -underline]
-    if { $oldunder != -1 } {
+    if { $oldunder > -1 } {
         set oldaccel1 [string tolower [string index [$path:cmd cget -text] $oldunder]]
         set oldaccel2 [string toupper $oldaccel1]
     } else {

@@ -806,7 +806,8 @@ proc ListBox::edit { path item text {verifycmd ""} {clickres 0} {select 1}} {
         pack $ent -ipadx 8 -anchor w
 
         set idw [$path.c create window $x $y -window $frame -anchor w]
-        trace variable ListBox::_edit(text) w [list ListBox::_update_edit_size $path $ent $idw $wmax]
+        trace add variable _edit(text) write \
+                [list ::ListBox::_update_edit_size $path $ent $idw $wmax]
         tkwait visibility $ent
         grab  $frame
         BWidget::focus set $ent
@@ -833,7 +834,8 @@ proc ListBox::edit { path item text {verifycmd ""} {clickres 0} {select 1}} {
                 set ok 1
             }
         }
-        trace vdelete ListBox::_edit(text) w [list ListBox::_update_edit_size $path $ent $idw $wmax]
+        trace remove variable ListBox::_edit(text) write \
+                [list ListBox::_update_edit_size $path $ent $idw $wmax]
         grab release $frame
         BWidget::focus release $ent
         destroy $frame
@@ -909,6 +911,10 @@ proc ListBox::_destroy { path } {
     variable $path
     upvar 0  $path data
 
+    if { ![info exists data] && [string match ".#BWidget.#Class*" $path] } {
+        # this is a proxy win to query xrdb
+        return
+    }
     if { $data(upd,afterid) != "" } {
         after cancel $data(upd,afterid)
     }

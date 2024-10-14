@@ -20,7 +20,7 @@
 #     - PagesManager::_draw_area
 #     - PagesManager::_realize
 # ------------------------------------------------------------------------------
-package require Tcl 8.1.1
+package require Tcl 8.1.1 9
 
 namespace eval PagesManager {
     Widget::define PagesManager pagesmgr

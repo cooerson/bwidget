@@ -124,7 +124,7 @@ proc Label::create { path args } {
 # ------------------------------------------------------------------------------
 proc Label::configure { path args } {
     set oldunder [$path.l cget -underline]
-    if { $oldunder != -1 } {
+    if { $oldunder > -1 } {
         set oldaccel [string tolower [string index [$path.l cget -text] $oldunder]]
     } else {
         set oldaccel ""

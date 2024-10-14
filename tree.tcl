@@ -890,16 +890,19 @@ proc Tree::nodes { path node {first ""} {last ""} } {
     if { ![info exists data($node)] } {
         return -code error "node \"$node\" does not exist"
     }
-
+    set nodes {}
+    set res {}
     if { ![string length $first] } {
-        return [lrange $data($node) 1 end]
-    }
-
-    if { ![string length $last] } {
-        return [lindex [lrange $data($node) 1 end] $first]
+        set nodes [lrange $data($node) 1 end]
+    } elseif { ![string length $last] } {
+        set nodes [lindex [lrange $data($node) 1 end] $first]
     } else {
-        return [lrange [lrange $data($node) 1 end] $first $last]
+        set nodes [lrange [lrange $data($node) 1 end] $first $last]
     }
+    foreach n $nodes {
+        lappend res [_node_name_rev $path $n]
+    }
+    return $res
 }
 
 
@@ -1048,7 +1051,7 @@ proc Tree::edit { path node text {verifycmd ""} {clickres 0} {select 1}} {
         pack $ent -ipadx 8 -anchor w
 
         set idw [$path.c create window $x $y -window $frame -anchor w]
-        trace variable Tree::_edit(text) w \
+        trace add variable _edit(text) write \
 	    [list Tree::_update_edit_size $path $ent $idw $wmax]
         tkwait visibility $ent
         grab  $frame
@@ -1071,14 +1074,14 @@ proc Tree::edit { path node text {verifycmd ""} {clickres 0} {select 1}} {
 
         set ok 0
         while { !$ok } {
-            tkwait variable Tree::_edit(wait)
+            tkwait variable ::Tree::_edit(wait)
             if { !$_edit(wait) || [llength $verifycmd]==0 ||
                  [uplevel \#0 $verifycmd [list $_edit(text)]] } {
                 set ok 1
             }
         }
 
-        trace vdelete Tree::_edit(text) w \
+        trace remove variable _edit(text) write \
 	    [list Tree::_update_edit_size $path $ent $idw $wmax]
         grab release $frame
         BWidget::focus release $ent
@@ -2233,6 +2236,10 @@ proc Tree::_destroy { path } {
     variable $path
     upvar 0  $path data
 
+    if { ![info exists data] && [string match ".#BWidget.#Class*" $path] } {
+        # this is a proxy win to query xrdb
+        return
+    }
     if { $data(upd,afterid) != "" } {
         after cancel $data(upd,afterid)
     }
