@@ -1,4 +1,9 @@
 2024-10-15 Harald Oehlmann <oehhar@users.sourceforge.net>
+	* Fix Tk9 compatibilty of statusbar.tcl.
+	Thanks to Paul Obermeier.
+	Ticket [7eb06c3a3a] 
+
+2024-10-15 Harald Oehlmann <oehhar@users.sourceforge.net>
 
 	**** BWidget 1.10.0 tagged ****
 

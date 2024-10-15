@@ -10,7 +10,7 @@
 #  otherwise the resize behavior may behave oddly.
 # ------------------------------------------------------------------------
 
-package require Tk 8.3
+package require Tk 8.3 9
 
 if {0} {
     proc sample {} {
