@@ -1047,7 +1047,7 @@ proc Tree::edit { path node text {verifycmd ""} {clickres 0} {select 1}} {
                         -selectforeground   [Widget::getoption $path -selectforeground] \
                         -selectbackground   $sbg  \
                         -font               [Widget::getoption $path.$node -font] \
-                        -textvariable       Tree::_edit(text)]
+                        -textvariable       ::Tree::_edit(text)]
         pack $ent -ipadx 8 -anchor w
 
         set idw [$path.c create window $x $y -window $frame -anchor w]
@@ -2057,6 +2057,10 @@ proc Tree::_keynav {which win} {
 #	The current node.
 
 proc Tree::_get_current_node {win} {
+    # TCL9 does not resolve sub-namespaces from parents (root) any more.
+    # The following sub-namespace ::Tree::selectTree was not observed
+    # on run-time tests. Nor ::selectTree
+    # So keep this for TCL 9
     if {[info exists selectTree::selectCursor($win)]} {
 	set result $selectTree::selectCursor($win)
     } elseif {[llength [set selList [$win selection get]]]} {

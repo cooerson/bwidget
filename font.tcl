@@ -42,6 +42,9 @@ namespace eval SelectFont {
     
     # Set up preset lists of fonts, so the user can avoid the painfully slow
     # loadfont process if desired.
+
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if { [string equal $::tcl_platform(platform) "windows"] } {
 	set presetVariable [list	\
 		7x14			\

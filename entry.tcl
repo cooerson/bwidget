@@ -31,6 +31,8 @@ namespace eval Entry {
 		     -disabledforeground -disabledbackground }
     }
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     set declare [list \
 	    [list -state        Enum        normal 0  [list normal disabled]] \
 	    [list -text         String      ""	   0] \
@@ -72,6 +74,8 @@ namespace eval Entry {
         COLOR   {move {}}
     }
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if {[Widget::theme]} {
         foreach event [bind TEntry] {
             bind BwEntry $event [bind TEntry $event]

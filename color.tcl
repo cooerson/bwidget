@@ -23,6 +23,8 @@ namespace eval SelectColor {
         \#ffffff \#ffffff \#ffffff \#ffffff \#ffffff
     }
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if {[string equal $::tcl_platform(platform) "unix"]} {
         set useTkDialogue 0
     } else {

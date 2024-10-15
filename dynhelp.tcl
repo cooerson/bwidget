@@ -19,6 +19,8 @@
 namespace eval DynamicHelp {
     Widget::define DynamicHelp dynhelp -classonly
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if {$::tcl_version >= 8.5} {
         set fontdefault TkTooltipFont
     } elseif {$::Widget::_aqua} {
