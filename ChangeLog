@@ -1,3 +1,6 @@
+2024-10-14 Harald Oehlmann <oehhar@users.sourceforge.net>
+	* TCL/Tk 9 patch provided by Emiliano. Ticket [b78ac94ee6]
+
 2023-05-22 Harald Oehlmann <oehhar@users.sourceforge.net>
 	* color.tcl: Bugfix in color chooser.
 	Displayed color box got gray (instead yellow) after the

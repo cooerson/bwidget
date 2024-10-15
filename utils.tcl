@@ -57,7 +57,11 @@ proc GlobalVar::getvar { varName } {
 #  Command GlobalVar::tracevar
 # ----------------------------------------------------------------------------
 proc GlobalVar::tracevar { cmd varName args } {
-    return [uplevel \#0 [list trace $cmd $varName] $args]
+    array set cmdmap {
+        variable {add variable}
+        vdelete  {remove variable}
+    }
+    return [uplevel \#0 trace $cmdmap($cmd) [list $varName] $args]
 }
 
 

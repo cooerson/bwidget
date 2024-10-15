@@ -84,12 +84,12 @@ proc DemoTree::create { nb } {
 
 
 proc DemoTree::init { tree list args } {
-    global   tcl_platform
+    global   tcl_platform env
     variable count
 
     set count 0
     if { $tcl_platform(platform) == "unix" } {
-        set rootdir [glob "~"]
+        set rootdir [glob $env(HOME)]
     } else {
         set rootdir "c:\\"
     }

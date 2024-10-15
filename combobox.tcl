@@ -19,7 +19,7 @@
 # ----------------------------------------------------------------------------
 
 # ComboBox uses the 8.3 -listvariable listbox option
-package require Tk 8.3
+package require Tk 8.3 9
 
 namespace eval ComboBox {
     Widget::define ComboBox combobox ArrowButton Entry ListBox
@@ -171,7 +171,7 @@ proc ComboBox::create { path args } {
         Widget::configure $path [list -bwlistbox $bw]
     }
 
-    set ComboBox::_index($path) -1
+    set ::ComboBox::_index($path) -1
 
     return [Widget::create ComboBox $path]
 }
@@ -515,7 +515,7 @@ proc ComboBox::_create_popup { path } {
     wm withdraw         $shell
     wm overrideredirect $shell 1
     # these commands cause the combobox to behave strangely on OS X
-    if {! $Widget::_aqua } {
+    if {! $::Widget::_aqua } {
         update idle
         wm transient    $shell [winfo toplevel $path]
         catch { wm attributes $shell -topmost 1 }
@@ -703,7 +703,7 @@ proc ComboBox::_mapliste { path } {
     wm deiconify $path.shell
     raise $path.shell
     BWidget::focus set $listb
-    if {! $Widget::_aqua } {
+    if {! $::Widget::_aqua } {
         BWidget::grab global $path
     }
 }
@@ -717,7 +717,7 @@ proc ComboBox::_unmapliste { path {refocus 1} } {
     if {[winfo exists $path.shell] && \
       ( [string equal [wm state $path.shell] "normal"] ||
 	[string equal [wm state $path.shell] "zoomed"] ) } {
-        if {! $Widget::_aqua } {
+        if {! $::Widget::_aqua } {
             BWidget::grab release $path
             BWidget::focus release $path.shell.listb $refocus
             # Update now because otherwise [focus -force...] makes the app hang!

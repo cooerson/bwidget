@@ -415,5 +415,5 @@ proc ButtonBox::_destroy { path } {
     variable $path
     upvar 0  $path data
     Widget::destroy $path
-    unset data
+    unset -nocomplain data
 }

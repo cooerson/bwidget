@@ -65,7 +65,7 @@ proc ProgressBar::create { path args } {
     set _widget($path,dir) 1
     set _widget($path,var) [Widget::cget $path -variable]
     if {$_widget($path,var) != ""} {
-        GlobalVar::tracevar variable $_widget($path,var) w \
+        GlobalVar::tracevar variable $_widget($path,var) write \
 		[list ProgressBar::_modify $path]
         set _widget($path,afterid) \
 	    [after idle [list ProgressBar::_modify $path]]
@@ -89,12 +89,12 @@ proc ProgressBar::configure { path args } {
     if { [Widget::hasChangedX $path -variable] } {
 	set newv [Widget::cget $path -variable]
         if { $_widget($path,var) != "" } {
-            GlobalVar::tracevar vdelete $_widget($path,var) w \
+            GlobalVar::tracevar vdelete $_widget($path,var) write \
 		    [list ProgressBar::_modify $path]
         }
         if { $newv != "" } {
             set _widget($path,var) $newv
-            GlobalVar::tracevar variable $newv w \
+            GlobalVar::tracevar variable $newv write \
 		    [list ProgressBar::_modify $path]
 	    if {![info exists _widget($path,afterid)]} {
 		set _widget($path,afterid) \
@@ -198,7 +198,7 @@ proc ProgressBar::_destroy { path } {
     }
     if {[info exists _widget($path,var)]} {
 	if {$_widget($path,var) != ""} {
-	    GlobalVar::tracevar vdelete $_widget($path,var) w \
+	    GlobalVar::tracevar vdelete $_widget($path,var) write \
 		[list ProgressBar::_modify $path]
 	}
 	unset _widget($path,var)

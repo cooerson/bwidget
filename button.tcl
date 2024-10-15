@@ -20,6 +20,8 @@
 namespace eval Button {
     Widget::define Button button DynamicHelp
 
+    # Using namespace variable without variable may set global variables
+    # Fixed in TCL 9, so no correction here
     set remove [list -command -relief -text -textvariable -underline -state]
     if {[info tclversion] > 8.3} {
 	lappend remove -repeatdelay -repeatinterval
@@ -129,7 +131,7 @@ proc Button::create { path args } {
 # ----------------------------------------------------------------------------
 proc Button::configure { path args } {
     set oldunder [$path:cmd cget -underline]
-    if { $oldunder != -1 } {
+    if { $oldunder > -1 } {
         set oldaccel1 [string tolower [string index [$path:cmd cget -text] $oldunder]]
         set oldaccel2 [string toupper $oldaccel1]
     } else {

@@ -31,6 +31,8 @@ namespace eval Entry {
 		     -disabledforeground -disabledbackground }
     }
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     set declare [list \
 	    [list -state        Enum        normal 0  [list normal disabled]] \
 	    [list -text         String      ""	   0] \
@@ -72,6 +74,8 @@ namespace eval Entry {
         COLOR   {move {}}
     }
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if {[Widget::theme]} {
         foreach event [bind TEntry] {
             bind BwEntry $event [bind TEntry $event]
@@ -179,7 +183,7 @@ proc Entry::create { path args } {
 proc Entry::configure { path args } {
     # Cheat by setting the -text value to the current contents of the entry
     # This might be better hidden behind a function in ::Widget.
-    set Widget::Entry::${path}:opt(-text) [$path:cmd get]
+    set ::Widget::Entry::${path}:opt(-text) [$path:cmd get]
 
     set res [Widget::configure $path $args]
 

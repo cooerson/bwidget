@@ -19,9 +19,11 @@
 namespace eval DynamicHelp {
     Widget::define DynamicHelp dynhelp -classonly
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if {$::tcl_version >= 8.5} {
         set fontdefault TkTooltipFont
-    } elseif {$Widget::_aqua} {
+    } elseif {$::Widget::_aqua} {
         set fontdefault {helvetica 11}
     } else {
         set fontdefault {helvetica 8}
@@ -670,7 +672,7 @@ proc DynamicHelp::_show_help { path w x y } {
             -screen [winfo screen $w]
 
         wm withdraw $_top
-	if { $Widget::_aqua } {
+	if { $::Widget::_aqua } {
 	    ::tk::unsupported::MacWindowStyle style $_top help none
 	} else {
 	    wm overrideredirect $_top 1

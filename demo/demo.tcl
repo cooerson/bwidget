@@ -1,6 +1,7 @@
 #!/bin/sh
 # The next line is executed by /bin/sh, but not tcl \
 exec wish "$0" ${1+"$@"}
+package require Tk
 
 namespace eval Demo {
     variable _wfont
@@ -123,7 +124,7 @@ proc Demo::create { } {
     set font   [$_wfont cget -font]
     pack $_wfont -side left -anchor w
 
-    $mainframe addindicator -text "BWidget [package version BWidget]"
+    $mainframe addindicator -text "BWidget [package provide BWidget]"
     $mainframe addindicator -textvariable tk_patchLevel
 
     # NoteBook creation
@@ -242,7 +243,7 @@ proc Demo::main {} {
     variable DEMODIR
 
     lappend ::auto_path [file dirname $DEMODIR]
-    package require BWidget
+    package require BWidget 1.9.16
 
     option add *TitleFrame.l.font {helvetica 11 bold italic}
 

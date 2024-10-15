@@ -23,6 +23,8 @@ namespace eval SelectColor {
         \#ffffff \#ffffff \#ffffff \#ffffff \#ffffff
     }
 
+    # Namespace variables overwrite global variables in TCL8
+    # Not changed here, as fixed in TCL9
     if {[string equal $::tcl_platform(platform) "unix"]} {
         set useTkDialogue 0
     } else {
@@ -418,7 +420,7 @@ proc SelectColor::dialog {path args} {
     # (2) ::SelectColor::_entryColor is modified (except by the user typing in
     #     the entry widget)
 
-    trace add variable ::SelectColor::_unsavedSelection write ::SelectColor::_SetEntryValue
+    trace add variable _unsavedSelection write ::SelectColor::_SetEntryValue
 
     $top add -text [lindex [BWidget::getname ok] 0]
     $top add -text [lindex [BWidget::getname cancel] 0]
@@ -436,7 +438,7 @@ proc SelectColor::dialog {path args} {
         set color ""
     }
 
-    trace remove variable ::SelectColor::_unsavedSelection write ::SelectColor::_SetEntryValue
+    trace remove variable _unsavedSelection write ::SelectColor::_SetEntryValue
 
     destroy $top
     return $color
@@ -502,7 +504,7 @@ proc SelectColor::_select_rgb {count} {
 
         # Display selected color in entry widget (via trace on
         # ::SelectColor::_unsavedSelection), and notify caller.
-        set ::SelectColor::_unsavedSelection $bg
+        set _unsavedSelection $bg
         _userCommand $bg
     }
 }
@@ -520,7 +522,7 @@ proc SelectColor::_set_rgb {rgb} {
 
     # Display selected color in entry widget (via trace on
     # ::SelectColor::_unsavedSelection), and notify caller.
-    set ::SelectColor::_unsavedSelection $rgb
+    set _unsavedSelection $rgb
     _userCommand $rgb
     set user [expr {$_selection-[llength $_baseColors]}]
     if {$user >= 0} {
@@ -808,7 +810,10 @@ proc SelectColor::_SetEntryValue {argVarName var2 op} {
     variable _entryColor
     variable _unsavedSelection
 
-    if {[string equal $argVarName ::SelectColor::_unsavedSelection] &&
+    # get the full qualified name
+    set fqname [uplevel 1 [list namespace which -variable $argVarName]]
+
+    if {[string equal $fqname ::SelectColor::_unsavedSelection] &&
             [string equal $var2 {}] && [string equal $op "write"]} {
         # OK
     } else {
@@ -817,10 +822,10 @@ proc SelectColor::_SetEntryValue {argVarName var2 op} {
                 \"$argVarName\", \"$var2\", \"$op\""
     }
 
-    set col24bit [::SelectColor::_24BitRgb [set $argVarName]]
+    set col24bit [_24BitRgb [set $fqname]]
 
     if {[_ValidateColorEntry forced $col24bit]} {
-        set ::SelectColor::_entryColor $col24bit
+        set _entryColor $col24bit
     } else {
         # Value is invalid, and if written to _entryColor this would disable
         # validation.
@@ -907,7 +912,7 @@ proc SelectColor::_ValidateColorEntry {percentV percentP} {
         # Remove an invalid value, convert a valid one to 24-bit.
         # Ignore $percentP, just fire the trace on _unsavedSelection.
         set color $_unsavedSelection
-        after idle [list set ::SelectColor::_unsavedSelection $color]
+        after idle [list set SelectColor::_unsavedSelection $color]
     }
 
     return 1
@@ -924,11 +929,13 @@ proc SelectColor::_ValidateColorEntry {percentV percentP} {
 
 proc SelectColor::_SetWithoutTrace {value} {
     variable _hsv
-    trace remove variable ::SelectColor::_unsavedSelection write ::SelectColor::_SetEntryValue
+    variable _unsavedSelection
+
+    trace remove variable _unsavedSelection write ::SelectColor::_SetEntryValue
     _set_rgb $value
     set _hsv [eval rgbToHsv [winfo rgb . $value]]
     _set_hue_sat [lindex $_hsv 0] [lindex $_hsv 1]
     _set_value   [lindex $_hsv 2]
-    trace add variable ::SelectColor::_unsavedSelection write ::SelectColor::_SetEntryValue
+    trace add variable _unsavedSelection write ::SelectColor::_SetEntryValue
     return
 }

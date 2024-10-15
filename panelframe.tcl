@@ -78,7 +78,7 @@ namespace eval PanelFrame {
 	}
 	# We use the same -foreground as the default -panelbackground
 	image create bitmap ::PanelFrame::X -data $imgdata \
-	    -foreground [lindex $Widget::PanelFrame::opt(-panelbackground) 1]
+	    -foreground [lindex $::Widget::PanelFrame::opt(-panelbackground) 1]
     }
 
     bind PanelFrame <Destroy> [list Widget::destroy %W]

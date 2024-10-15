@@ -114,10 +114,10 @@ proc LabelFrame::align { args } {
     set wlist  {}
     foreach wl $args {
         foreach w $wl {
-            if { ![info exists Widget::_class($w)] } {
+            if { ![info exists ::Widget::_class($w)] } {
                 continue
             }
-            set class $Widget::_class($w)
+            set class $::Widget::_class($w)
             if { [string equal $class "LabelFrame"] } {
                 set textopt  -text
                 set widthopt -width

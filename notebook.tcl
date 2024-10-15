@@ -461,11 +461,15 @@ proc NoteBook::_destroy { path } {
     variable $path
     upvar 0  $path data
 
+    if { ![info exists data] && [string match ".#BWidget.#Class*" $path] } {
+        # this is a proxy win to query xrdb
+        return
+    }
     foreach page $data(pages) {
         Widget::destroy $path.f$page
     }
     Widget::destroy $path
-    unset data
+    unset -nocomplain data
 }
 
 

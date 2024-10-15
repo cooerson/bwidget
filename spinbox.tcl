@@ -76,7 +76,7 @@ proc SpinBox::create { path args } {
 	[list -highlightthickness 0 -takefocus 0 -class SpinBox]
     Widget::initFromODB SpinBox $path $maps(SpinBox)
 
-    if {$Widget::_theme} {
+    if {$::Widget::_theme} {
         set entry [eval [list Entry::create $path.e] $maps(.e)]
     } else {
         set entry [eval [list Entry::create $path.e] $maps(.e) -relief flat -bd 0]
