@@ -243,7 +243,7 @@ proc Demo::main {} {
     variable DEMODIR
 
     lappend ::auto_path [file dirname $DEMODIR]
-    package require BWidget 1.10.0
+    package require BWidget
 
     option add *TitleFrame.l.font {helvetica 11 bold italic}
 
